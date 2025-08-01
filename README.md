@@ -29,7 +29,7 @@ This is a simple Python app that fetches weather data for a given location using
 
 2. **Install dependencies:**
    ```bash
-   pip install requests python-dotenv
+   pip install -r requirements.txt
    ```
 
 3. **Run the app:**
@@ -48,10 +48,7 @@ The recommended way to provide your OpenWeatherMap API key is to create a `.env`
 echo "OPENWEATHER_API_KEY=your_api_key_here" > venv/.env
 ```
 
-Then, install the required package:
-```bash
-pip install python-dotenv
-```
+The required packages will be installed automatically from `requirements.txt`.
 
 Your app will automatically load the API key from `venv/.env` when you run it.
 

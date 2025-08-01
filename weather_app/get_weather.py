@@ -3,7 +3,6 @@ import logging
 from dotenv import load_dotenv
 import requests
 
-
 # A function that uses the requests library to make a GET request to
 # the OpenWeatherMap API for certain location
 

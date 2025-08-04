@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, HTTPException
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from weather_app.get_weather import get_weather, get_weather_forecast
 import matplotlib
@@ -9,6 +9,10 @@ import io
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="weather_app/static", html=True), name="static")
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/docs")
 
 @app.get("/weather/current")
 def current_weather(city: str):

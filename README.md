@@ -1,6 +1,7 @@
 # Weather App
 
-[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions) 
+[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions)
+[![Docker Build & Test](https://github.com/samuelpmvm/weather-app/actions/workflows/Docker-CI.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions/workflows/Docker-CI.yml)
 [![codecov](https://codecov.io/gh/samuelpmvm/weather-app/branch/main/graph/badge.svg)](https://codecov.io/gh/samuelpmvm/weather-app)
 
 This is a simple Python app that fetches weather data for a given location using the OpenWeatherMap API.
@@ -14,6 +15,7 @@ This is a simple Python app that fetches weather data for a given location using
 - GitHub Actions (for CI testing)
 - FastAPI (for REST API)
 - pytest & pytest-cov (for testing and coverage)
+- Docker (for containerized deployment)
 
 ## Features
 
@@ -24,6 +26,7 @@ This is a simple Python app that fetches weather data for a given location using
 - Interactive API docs at `/docs`
 - Minimal web frontend for chart visualization
 - Automated API test workflow with GitHub Actions
+- Automated Docker build & test workflow with GitHub Actions
 - Automated test coverage reporting (see badge above)
 
 ## Setup Instructions
@@ -133,3 +136,40 @@ A minimal web frontend is included for quick chart visualization.
 3. Enter a city and select a metric to view the chart.
 
 This frontend is located at [`weather_app/static/index.html`](weather_app/static/index.html) and is served automatically by FastAPI.
+
+
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+1. Create a `.env` file in the project root with your OpenWeatherMap API key. Docker Compose will automatically load environment variables from this file using the `env_file` setting:
+   ```env
+   OPENWEATHER_API_KEY=your_api_key_here
+   ```
+
+
+2. Build and run the app:
+   ```bash
+   docker-compose up --build -d
+   # No need to set OPENWEATHER_API_KEY manually; Compose loads it from .env
+   ```
+
+3. The app will be available at [http://localhost:8000](http://localhost:8000).
+
+4. To stop the app:
+   ```bash
+   docker-compose down
+   ```
+
+### Using Docker Only
+
+If you use plain Docker (not Compose), you must pass the environment variable manually:
+
+```bash
+docker build -t weather-app .
+docker run -d -p 8000:8000 \
+  -e OPENWEATHER_API_KEY=your_api_key_here \
+  weather-app
+```
+
+The app will be available at http://localhost:8000.

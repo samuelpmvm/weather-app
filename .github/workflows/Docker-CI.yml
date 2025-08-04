@@ -1,0 +1,44 @@
+name: Build and Test Docker Image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python for test scripts
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Build Docker image
+        run: |
+          docker build -t weather-app .
+
+      - name: Run Docker container for testing
+        env:
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+        run: |
+          docker run -d --name weather-app-test -e OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY -p 8000:8000 weather-app
+          # Wait for the app to start
+          sleep 10
+
+      - name: Test FastAPI health (current weather endpoint)
+        run: |
+          curl --fail http://localhost:8000/weather/current?city=Lisboa
+
+      - name: Test FastAPI docs endpoint
+        run: |
+          curl --fail http://localhost:8000/docs
+
+      - name: Stop and remove container
+        if: always()
+        run: |
+          docker stop weather-app-test
+          docker rm weather-app-test

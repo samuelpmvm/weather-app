@@ -1,10 +1,9 @@
-name: Weather API Test
+name: Weather App CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
 
 jobs:
   test-weather-api:
@@ -12,19 +11,41 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
       - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install requests python-dotenv
+          pip install -r requirements.txt
+
       - name: Create .env file
         run: |
           echo "OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}" > venv/.env
-      - name: Run API test
+
+      - name: Run unit tests
         run: |
           source venv/bin/activate
-          python -c "from get_weather import get_weather; print(get_weather('London'))"
+          pytest tests/test_get_weather_unit.py --cov=weather_app --cov-append
+
+      - name: Run integration tests
+        run: |
+          source venv/bin/activate
+          pytest tests/test_get_weather_integration.py --cov=weather_app --cov-append
+
+      - name: Show combined coverage
+        run: |
+          source venv/bin/activate
+          coverage report
+          coverage xml
+          coverage html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: htmlcov
+          path: htmlcov/

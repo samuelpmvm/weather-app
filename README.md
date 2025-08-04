@@ -1,5 +1,6 @@
-
 # Weather App
+
+[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions)
 
 This is a simple Python app that fetches weather data for a given location using the OpenWeatherMap API.
 
@@ -57,6 +58,16 @@ Alternatively, you can set the environment variable manually:
 export OPENWEATHER_API_KEY='your_api_key_here'
 ```
 This can be added to your `.bashrc`, `.zshrc`, or run in your terminal before starting the app.
+
+## Test Coverage
+
+This project uses [pytest](https://docs.pytest.org/) and [pytest-cov](https://pytest-cov.readthedocs.io/) for automated testing and coverage reporting.
+Coverage is checked automatically in CI on every push and pull request.
+
+To check coverage locally:
+```bash
+pytest --cov=weather_app --cov-report=term-missing
+```
 
 ## Notes
 - Make sure to keep your API key secure and never commit it to version control.

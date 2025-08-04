@@ -1,0 +1,30 @@
+# English translations for weather-app
+msgid "Current weather in {city}:"
+msgstr "Current weather in {city}:"
+
+msgid "Temperature: {temp}°C (min: {temp_min}°C, max: {temp_max}°C)"
+msgstr "Temperature: {temp}°C (min: {temp_min}°C, max: {temp_max}°C)"
+
+msgid "Description: {desc}"
+msgstr "Description: {desc}"
+
+msgid "Humidity: {humidity}%"
+msgstr "Humidity: {humidity}%"
+
+msgid "Pressure: {pressure} hPa"
+msgstr "Pressure: {pressure} hPa"
+
+msgid "Wind: {wind_speed} m/s, {wind_deg}°"
+msgstr "Wind: {wind_speed} m/s, {wind_deg}°"
+
+msgid "Could not retrieve weather data."
+msgstr "Could not retrieve weather data."
+
+msgid "Weather forecast for {city}:"
+msgstr "Weather forecast for {city}:"
+
+msgid "{dt_txt}: {temp}°C, {desc}, Humidity: {humidity}%, Wind: {wind_speed} m/s"
+msgstr "{dt_txt}: {temp}°C, {desc}, Humidity: {humidity}%, Wind: {wind_speed} m/s"
+
+msgid "Could not retrieve forecast data."
+msgstr "Could not retrieve forecast data."

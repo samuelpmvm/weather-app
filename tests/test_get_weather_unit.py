@@ -12,7 +12,7 @@ def test_get_weather_valid(monkeypatch):
         def __init__(self):
             self.status_code = 200
         def json(self):
-            return {"weather": "sunny"}
+            return {"weather": [{"description": "sunny"}]}
         def raise_for_status(self):
             pass
     monkeypatch.setattr(gw.requests, "get", lambda *args, **kwargs: DummyResponse())

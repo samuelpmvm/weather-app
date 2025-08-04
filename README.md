@@ -11,14 +11,19 @@ This is a simple Python app that fetches weather data for a given location using
 - python-dotenv (environment variable management)
 - OpenWeatherMap API
 - GitHub Actions (for CI testing)
+- FastAPI (for REST API)
+- pytest & pytest-cov (for testing and coverage)
 
 ## Features
 
 - Fetches current weather data for any city using OpenWeatherMap
 - Secure API key management via `.env` file in `venv`
-- Simple function interface for integration into other scripts
-- Example usage and setup instructions
+- REST API for current weather and 5-day/3-hour forecast
+- Chart endpoints for temperature, humidity, wind speed, wind direction (PNG)
+- Interactive API docs at `/docs`
+- Minimal web frontend for chart visualization
 - Automated API test workflow with GitHub Actions
+- Automated test coverage reporting (see badge above)
 
 ## Setup Instructions
 

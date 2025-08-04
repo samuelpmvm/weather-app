@@ -1,6 +1,6 @@
 # Weather App
 
-[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions)
+[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions) [![codecov](https://codecov.io/gh/samuelpmvm/weather-app/branch/main/graph/badge.svg)](https://codecov.io/gh/samuelpmvm/weather-app)
 
 This is a simple Python app that fetches weather data for a given location using the OpenWeatherMap API.
 
@@ -72,3 +72,58 @@ pytest --cov=weather_app --cov-report=term-missing
 ## Notes
 - Make sure to keep your API key secure and never commit it to version control.
 - The virtual environment directory (`venv`) is ignored by git (see `.gitignore`).
+
+## Weather App (FastAPI Version)
+
+### Features
+- REST API for current weather and 5-day/3-hour forecast
+- Chart endpoints for temperature, humidity, wind speed, wind direction (PNG)
+- Interactive API docs at `/docs`
+- Ready for frontend or CLI integration
+
+### Running the API
+
+```bash
+uvicorn weather_app.fastapi_app:app --reload
+```
+
+### API Endpoints
+
+- `GET /weather/current?city=Lisboa` — Current weather for a city
+- `GET /weather/forecast?city=Lisboa` — 5-day/3-hour forecast for a city
+- `GET /weather/chart/{city}/{metric}` — Chart image for a metric (`temperature`, `humidity`, `wind_speed`, `wind_deg`)
+- `GET /docs` — Interactive API documentation (Swagger UI)
+
+### Example Usage
+
+- Get current weather:
+  ```
+  curl "http://127.0.0.1:8000/weather/current?city=Lisboa"
+  ```
+- Get a temperature chart:
+  ```
+  curl "http://127.0.0.1:8000/weather/chart/Lisboa/temperature" --output temp.png
+  ```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+---
+
+## Web Frontend
+
+A minimal web frontend is included for quick chart visualization.
+
+### How to use
+
+1. Start the FastAPI server:
+   ```bash
+   uvicorn weather_app.fastapi_app:app --reload
+   ```
+2. Open your browser and go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+3. Enter a city and select a metric to view the chart.
+
+This frontend is located at [`weather_app/static/index.html`](weather_app/static/index.html) and is served automatically by FastAPI.

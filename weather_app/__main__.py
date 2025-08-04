@@ -4,40 +4,38 @@ import requests
 
 logging.basicConfig(level=logging.INFO)
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Weather CLI: Get current weather or forecast for a city.")
+    parser = argparse.ArgumentParser(description="Weather CLI: Get current weather or forecast chart for a city (using API backend).")
     parser.add_argument("city", type=str, help="City name to look up weather for.")
-    parser.add_argument("--forecast", action="store_true", help="Get 5-day/3-hour weather forecast instead of current weather.")
-    parser.add_argument("--plot", action="store_true", help="Show a chart of temperature forecast (requires --forecast)")
+    parser.add_argument("--forecast", action="store_true", help="Get 5-day/3-hour weather forecast chart instead of current weather chart.")
+    parser.add_argument("--metric", type=str, default="temperature", choices=["temperature", "humidity", "wind_speed", "wind_deg"], help="Metric to plot (default: temperature)")
+    parser.add_argument("--plot", action="store_true", help="Show the chart image (requires Pillow)")
+    parser.add_argument("--api-base", type=str, default="http://127.0.0.1:5000", help="Base URL for the API (Flask or FastAPI)")
     args = parser.parse_args()
 
-    api_base = "http://127.0.0.1:5000"
-    if args.forecast:
-        resp = requests.get(f"{api_base}/chart/{args.city}/temperature")
-        if resp.status_code == 200:
-            print(f"Weather forecast chart for {args.city} (temperature):")
-            if args.plot:
+    endpoint = f"/chart/{args.city}/{args.metric}"
+    url = args.api_base.rstrip("/") + endpoint
+    try:
+        resp = requests.get(url)
+    except Exception as e:
+        print(f"Error connecting to API: {e}")
+        return
+    if resp.status_code == 200:
+        chart_type = "forecast" if args.forecast else "current weather"
+        print(f"{chart_type.title()} chart for {args.city} ({args.metric}):")
+        if args.plot:
+            try:
                 from PIL import Image
                 import io
                 img = Image.open(io.BytesIO(resp.content))
                 img.show()
-            else:
-                print("Chart image received (use --plot to display)")
+            except ImportError:
+                print("Pillow is not installed. Install it with 'pip install pillow' to display images.")
         else:
-            print("Could not retrieve forecast chart from API.")
+            print("Chart image received (use --plot to display)")
     else:
-        resp = requests.get(f"{api_base}/chart/{args.city}/temperature")
-        if resp.status_code == 200:
-            print(f"Current weather chart for {args.city} (temperature):")
-            if args.plot:
-                from PIL import Image
-                import io
-                img = Image.open(io.BytesIO(resp.content))
-                img.show()
-            else:
-                print("Chart image received (use --plot to display)")
-        else:
-            print("Could not retrieve weather chart from API.")
+        print(f"Could not retrieve chart from API. Status: {resp.status_code}. Message: {resp.text}")
 
 if __name__ == "__main__":
     main()

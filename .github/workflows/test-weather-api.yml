@@ -49,3 +49,14 @@ jobs:
         run: |
           source venv/bin/activate
           pytest tests/test_chart_api.py --cov=weather_app --cov-append
+
+      - name: Generate HTML coverage report
+        run: |
+          source venv/bin/activate
+          pytest --cov=weather_app --cov-report=html
+
+      - name: Upload coverage report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: htmlcov
+          path: htmlcov/

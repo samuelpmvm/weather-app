@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App (FastAPI)</title>
+</head>
+<body>
+    <h1>Weather App (FastAPI)</h1>
+    <form id="weatherForm">
+        <input type="text" id="city" placeholder="City" required>
+        <select id="metric">
+            <option value="temperature">Temperature</option>
+            <option value="humidity">Humidity</option>
+            <option value="wind_speed">Wind Speed</option>
+            <option value="wind_deg">Wind Direction</option>
+        </select>
+        <button type="submit">Get Chart</button>
+    </form>
+    <div id="result"></div>
+    <img id="chart" style="display:none; margin-top:20px;" width="500">
+    <script>
+        document.getElementById('weatherForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const city = document.getElementById('city').value;
+            const metric = document.getElementById('metric').value;
+            const img = document.getElementById('chart');
+            img.src = `/weather/chart/${city}/${metric}`;
+            img.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

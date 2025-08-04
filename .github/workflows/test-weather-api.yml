@@ -22,18 +22,34 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          pip install coverage
 
       - name: Create .env file
         run: |
           echo "OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}" > venv/.env
 
-
-      - name: Run all tests with coverage
+      # ---------- UNIT TESTS ----------
+      - name: Run unit tests with coverage
         run: |
           source venv/bin/activate
-          pybabel compile -d locales || true
-          pytest tests --cov=weather_app --cov-report=term-missing --cov-report=html
+          pytest tests/test_get_weather_unit.py --cov=weather_app --cov-append --cov-report=term-missing --cov-report=html
+
+      # ---------- API TESTS ----------
+      - name: Run FastAPI tests with coverage
+        run: |
+          source venv/bin/activate
+          pytest tests/test_fastapi_app.py --cov=weather_app --cov-append --cov-report=term-missing --cov-report=html
+
+      # ---------- CLI TESTS ----------
+      - name: Run CLI tests with coverage
+        run: |
+          source venv/bin/activate
+          pytest tests/test_main.py --cov=weather_app --cov-append --cov-report=term-missing --cov-report=html
+
+      # ---------- FINAL COVERAGE REPORT ----------
+      - name: Generate combined HTML coverage report
+        run: |
+          source venv/bin/activate
+          coverage html
 
       - name: Upload coverage report artifact
         uses: actions/upload-artifact@v4

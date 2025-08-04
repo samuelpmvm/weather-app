@@ -7,3 +7,5 @@ requests-cache
 babel
 matplotlib
 httpx
+fastapi
+uvicorn

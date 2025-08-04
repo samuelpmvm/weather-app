@@ -6,13 +6,12 @@ import requests
 # A function that uses the requests library to make a GET request to
 # the OpenWeatherMap API for certain location
 
-def get_weather(location: str) -> dict | None:
+def get_weather(location: str, env_path: str = os.path.join('venv', '.env')) -> dict | None:
     logging.basicConfig(level=logging.INFO)
-    # Always load environment variables from venv/.env
-    load_dotenv(dotenv_path=os.path.join('venv', '.env'))
+    load_dotenv(dotenv_path=env_path)
     api_key = os.environ.get('OPENWEATHER_API_KEY')
     if not api_key:
-        logging.error("OPENWEATHER_API_KEY not found in venv/.env.")
+        logging.error(f"OPENWEATHER_API_KEY not found in {env_path}.")
         return None
     url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric"
     try:

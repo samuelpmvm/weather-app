@@ -82,7 +82,11 @@ pytest --cov=weather_app --cov-report=term-missing
 - Make sure to keep your API key secure and never commit it to version control.
 - The virtual environment directory (`venv`) is ignored by git (see `.gitignore`).
 
+
 ## Weather App (FastAPI Version)
+
+### Configuration
+All configuration (such as API keys) is now centralized in `weather_app/config.py` and loaded from environment variables (see `.env` file). You can extend this config for more settings as your app grows.
 
 ### Features
 - REST API for current weather and 5-day/3-hour forecast
@@ -172,4 +176,12 @@ docker run -d -p 8000:8000 \
   weather-app
 ```
 
-The app will be available at http://localhost:8000.
+
+The app will be available at:
+- [http://localhost:8000/docs](http://localhost:8000/docs) — Interactive API documentation (Swagger UI)
+- [http://localhost:8000/](http://localhost:8000/) — Minimal web frontend (if enabled)
+
+---
+
+**Scalable & Modular:**
+This project uses a centralized config file (`weather_app/config.py`), a service layer (`weather_app/services.py`), and FastAPI routers for modularity and scalability. You can easily extend it with new features, endpoints, or configuration options.

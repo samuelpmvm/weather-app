@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Query, HTTPException
+
+from fastapi import FastAPI, APIRouter, Query, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from weather_app.get_weather import get_weather, get_weather_forecast
+from weather_app.services import WeatherService
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -10,27 +11,30 @@ import io
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="weather_app/static", html=True), name="static")
 
+weather_service = WeatherService()
+router = APIRouter()
+
 @app.get("/")
 def root():
     return RedirectResponse(url="/docs")
 
-@app.get("/weather/current")
+@router.get("/weather/current")
 def current_weather(city: str):
-    result = get_weather(city)
+    result = weather_service.get_current_weather(city)
     if not result:
         raise HTTPException(status_code=404, detail="Weather not found")
     return result
 
-@app.get("/weather/forecast")
+@router.get("/weather/forecast")
 def forecast(city: str):
-    result = get_weather_forecast(city)
+    result = weather_service.get_forecast(city)
     if not result:
         raise HTTPException(status_code=404, detail="Forecast not found")
     return result
 
-@app.get("/weather/chart/{city}/{metric}")
+@router.get("/weather/chart/{city}/{metric}")
 def chart(city: str, metric: str):
-    result = get_weather_forecast(city)
+    result = weather_service.get_forecast(city)
     valid_metrics = {'temperature', 'humidity', 'wind_speed', 'wind_deg'}
     if metric not in valid_metrics:
         raise HTTPException(status_code=400, detail="Invalid metric")
@@ -62,3 +66,5 @@ def chart(city: str, metric: str):
     plt.close()
     buf.seek(0)
     return StreamingResponse(buf, media_type='image/png')
+
+app.include_router(router)

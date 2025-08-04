@@ -27,6 +27,9 @@ jobs:
         run: |
           echo "OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}" > venv/.env
 
+      - name: Remove old coverage data
+        run: rm -f .coverage
+
       # ---------- UNIT TESTS ----------
       - name: Run unit tests with coverage
         run: |

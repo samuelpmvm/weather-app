@@ -178,8 +178,7 @@ docker run -d -p 8000:8000 \
 
 
 The app will be available at:
-- [http://localhost:8000/docs](http://localhost:8000/docs) — Interactive API documentation (Swagger UI)
-- [http://localhost:8000/](http://localhost:8000/) — Minimal web frontend (if enabled)
+- [http://localhost:8000](http://localhost:8000) — Interactive API documentation (Swagger UI)
 
 ---
 

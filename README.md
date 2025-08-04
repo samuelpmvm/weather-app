@@ -1,6 +1,7 @@
 # Weather App
 
-[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions) [![codecov](https://codecov.io/gh/samuelpmvm/weather-app/branch/main/graph/badge.svg)](https://codecov.io/gh/samuelpmvm/weather-app)
+[![Weather API Test](https://github.com/samuelpmvm/weather-app/actions/workflows/test-weather-api.yml/badge.svg)](https://github.com/samuelpmvm/weather-app/actions) 
+[![codecov](https://codecov.io/gh/samuelpmvm/weather-app/branch/main/graph/badge.svg)](https://codecov.io/gh/samuelpmvm/weather-app)
 
 This is a simple Python app that fetches weather data for a given location using the OpenWeatherMap API.
 

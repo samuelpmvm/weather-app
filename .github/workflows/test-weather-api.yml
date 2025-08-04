@@ -37,16 +37,3 @@ jobs:
         run: |
           source venv/bin/activate
           pytest tests/test_get_weather_integration.py --cov=weather_app --cov-append
-
-      - name: Show combined coverage
-        run: |
-          source venv/bin/activate
-          coverage report --source=weather_app
-          coverage xml --source=weather_app
-          coverage html --source=weather_app
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-html-report
-          path: htmlcov/
